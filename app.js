@@ -23,6 +23,9 @@ app.use((req,res,next)=>{
     next()
 })
 
+// 托管静态资源文件
+app.use('/uploads', express.static('./uploads'))
+
 // 解析Token的中间件
 const config = require('./config')
 const expressJWT = require('express-jwt')
@@ -40,6 +43,10 @@ app.use('/my',userinfoRouter)
 // 导入并使用文章分类的模块
 const artCateRouter = require('./router/artcate')
 app.use('/my/article',artCateRouter)
+
+// 导入并使用文章路由模块
+const articleRouter = require('./router/article')
+app.use('my/article',articleRouter)
 
 // 错误中间件
 app.use((err,req,res,next)=>{
