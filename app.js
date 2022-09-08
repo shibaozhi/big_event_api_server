@@ -28,6 +28,10 @@ const config = require('./config')
 const expressJWT = require('express-jwt')
 // 使用 .unless({ path: [/^\/api\//] }) 指定哪些接口不需要进行 Token 的身份认证
 app.use(expressJWT({secret:config.jwtSecretKey}).unless({path:[/^\/api\//]}))
+    // 文章封面在服务器端的存放路径
+    //cover_img: path.join('/uploads', req.file.filename)
+// 托管静态资源文件
+app.use('/uploads', express.static('./uploads'))
 
 
 // 导入注册用户路由模块
@@ -40,6 +44,10 @@ app.use('/my',userinfoRouter)
 // 导入并使用文章分类的模块
 const artCateRouter = require('./router/artcate')
 app.use('/my/article',artCateRouter)
+// 导入并使用文章路由模块
+const articleRouter = require('./router/article')
+// 为文章的路由挂载统一的访问前缀 /my/article
+app.use('/my/article', articleRouter)
 
 // 错误中间件
 app.use((err,req,res,next)=>{
