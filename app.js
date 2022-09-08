@@ -23,6 +23,9 @@ app.use((req,res,next)=>{
     next()
 })
 
+// 托管静态资源文件
+app.use('/uploads', express.static('./uploads'))
+
 // 解析Token的中间件
 const config = require('./config')
 const expressJWT = require('express-jwt')
@@ -48,6 +51,10 @@ app.use('/my/article',artCateRouter)
 const articleRouter = require('./router/article')
 // 为文章的路由挂载统一的访问前缀 /my/article
 app.use('/my/article', articleRouter)
+
+// 导入并使用文章路由模块
+const articleRouter = require('./router/article')
+app.use('my/article',articleRouter)
 
 // 错误中间件
 app.use((err,req,res,next)=>{
